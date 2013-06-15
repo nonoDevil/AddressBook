@@ -31,11 +31,12 @@ int main(int argc, char *argv[])
 
 	welcome(&choice);
 	init(&head);
-	add(head);
-	add(head);
+	load(head);
+	//add(head);
+	//add(head);
 	//del(head);
 	//modify(head);
-	query(head);
+	//query(head);
 	list(head);
 		
 	return EXIT_SUCCESS;
@@ -206,6 +207,35 @@ int query(LinkList head)
  */
 int load(LinkList head)
 {
+	FILE *r_file = NULL;
+	Node *newnode = NULL;
+
+	r_file = fopen("./data.txt", "rt");
+	if (!r_file) {
+		perror("fopen");
+		exit(-1);
+	}
+	
+	
+	while (!feof(r_file)) {
+		if (!(newnode = (Node *)malloc(sizeof(Node)))) {
+			perror("malloc");
+			exit(-1);
+		}
+		fscanf(r_file, "%s\t%s\n", newnode->name, newnode->number);
+		printf("读入数据:%s\t%s...\n", newnode->name, newnode->number);
+		newnode->next = head->next;
+		head->next = newnode;
+	}
+	printf("读入数据完毕!\n");
+
+	fclose(r_file);
+
+#ifdef DEBUG
+	list(head);
+#endif 
+
+
 	return 0;
 }
 
@@ -214,6 +244,8 @@ int load(LinkList head)
  */
 int save(LinkList head)
 {
+
+
 	return 0;
 }
 
