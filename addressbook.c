@@ -33,7 +33,8 @@ int main(int argc, char *argv[])
 	init(&head);
 	add(head);
 	add(head);
-	del(head);
+	//del(head);
+	modify(head);
 	list(head);
 		
 	return EXIT_SUCCESS;
@@ -117,18 +118,18 @@ int add(LinkList head)
  */
 int del(LinkList head)
 {
-	char del_name[NAME_LEN];
+	char d_name[NAME_LEN];
 	Node *cur = NULL;
 	Node *pre = NULL;
 	list(head);
 	printf("请输入要删除的联系人姓名:\n");
-	scanf("%s", del_name);
+	scanf("%s", d_name);
 	
 	cur = head->next;
 	pre = head;
 	while (cur != NULL) {
-		if (0 == (strcmp(del_name, cur->name))) {
-			printf("将要删除联系人:%s 号码:%s\n" cur->name, cur->number);
+		if (0 == (strcmp(d_name, cur->name))) {
+			printf("将要删除联系人:%s 号码:%s\n", cur->name, cur->number);
 			pre->next = cur->next;
 			free(cur);
 		}
@@ -148,6 +149,27 @@ int del(LinkList head)
  */
 int modify(LinkList head)
 {
+	Node *cur = NULL;
+	char m_name[NAME_LEN];	
+
+	printf("请输入要修改的联系人姓名:\n");
+	scanf("%s", m_name);
+
+	cur = head->next;
+	while (cur != NULL) {
+		if (0 == (strcmp(m_name, cur->name))) {
+			printf("请重新输入姓名:");
+			scanf("%s", cur->name);
+			printf("请重新输入电话号码:");
+			scanf("%s", cur->number);
+		}
+		cur = cur->next;
+	}
+	printf("修改成功!\n");
+#ifdef DEBUG
+	list(head);
+#endif
+
 	return 0;
 }
 
@@ -156,6 +178,8 @@ int modify(LinkList head)
  */
 int query(LinkList head)
 {
+	printf("");
+
 	return 0;
 }
 
