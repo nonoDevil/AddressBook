@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
 	add(head);
 	add(head);
 	//del(head);
-	modify(head);
+	//modify(head);
+	query(head);
 	list(head);
 		
 	return EXIT_SUCCESS;
@@ -178,7 +179,23 @@ int modify(LinkList head)
  */
 int query(LinkList head)
 {
-	printf("");
+	Node *cur = NULL;
+	char q_name[NAME_LEN];
+
+	printf("请输入要查询的联系人姓名或号码:\n");
+	scanf("%s", q_name);
+	cur = head->next;
+	while (cur != NULL) {
+		if ((0 == strcmp(q_name, cur->name)) || (0 == strcmp(q_name, cur->number))) {
+			printf("查询到的联系人信息如下:\n");
+			printf("\t姓名\t\t号码\n");
+			printf("\t%s\t\t%s\n", cur->name, cur->number);
+			return 0;
+		}
+		cur = cur->next;
+	}
+	
+	printf("数据库无相关信息!\n");
 
 	return 0;
 }
