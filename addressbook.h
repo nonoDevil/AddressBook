@@ -30,7 +30,7 @@ typedef struct contact_person{
 	struct contact_person *next;
 }Node, *LinkList;
 
-int welcome(char *choice);
+int welcome_menu(char *choice, LinkList head);
 int init(LinkList *head);
 int add(LinkList head);
 int del(LinkList head);
