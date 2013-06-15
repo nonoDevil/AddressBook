@@ -32,13 +32,6 @@ int main(int argc, char *argv[])
 	init(&head);
 	load(head);
 	welcome_menu(&choice, head);
-	//add(head);
-	//add(head);
-	//del(head);
-	//modify(head);
-	//query(head);
-	//save(head);
-	//list(head);
 		
 	return EXIT_SUCCESS;
 }
@@ -57,7 +50,7 @@ menu:
 	printf("\t\t\t2.增加联系人\n");
 	printf("\t\t\t3.编辑联系人\n");
 	printf("\t\t\t4.删除联系人\n");
-	printf("\t\t\t5.推出通讯录系统\n");
+	printf("\t\t\t5.退出通讯录系统\n");
 	printf("-----------------------------------------------------\n");
 
 	*choice = getchar();
@@ -247,7 +240,9 @@ int load(LinkList head)
 	r_file = fopen("./data.txt", "rt");
 	if (!r_file) {
 		perror("fopen");
-		exit(-1);
+		r_file = fopen("./data.txt", "wt");
+		fclose(r_file);
+		return 0;
 	}
 	
 	
