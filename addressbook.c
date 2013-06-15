@@ -33,10 +33,11 @@ int main(int argc, char *argv[])
 	init(&head);
 	load(head);
 	//add(head);
-	//add(head);
+	add(head);
 	//del(head);
 	//modify(head);
 	//query(head);
+	save(head);
 	list(head);
 		
 	return EXIT_SUCCESS;
@@ -244,7 +245,20 @@ int load(LinkList head)
  */
 int save(LinkList head)
 {
+	Node *cur = NULL;
+	FILE *w_file = NULL;
 
+	w_file = fopen("./data.txt", "wt");
+	if (!w_file) {
+		perror("fopen");
+		exit(-1);
+	}
+
+	cur = head->next;
+	while (cur != NULL) {
+		fprintf(w_file, "%s\t%s\n", cur->name, cur->number);
+		cur = cur->next;
+	}
 
 	return 0;
 }
