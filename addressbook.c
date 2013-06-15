@@ -33,8 +33,9 @@ int main(int argc, char *argv[])
 	init(&head);
 	add(head);
 	add(head);
+	del(head);
 	list(head);
-
+		
 	return EXIT_SUCCESS;
 }
 
@@ -69,11 +70,15 @@ int init(LinkList *head)
 #ifdef DEBUG
 	printf("head->number = %s\n", (*head)->number);
 #endif
+
 	strcpy((*head)->number,"\0");
+
 #ifdef DEBUG
 	printf("head->number = %s\n", (*head)->number);
 #endif
+
 	strcpy((*head)->name,"\0");
+	(*head)->next = NULL;
 
 	return 0;
 }
@@ -112,8 +117,26 @@ int add(LinkList head)
  */
 int del(LinkList head)
 {
+	char del_name[NAME_LEN];
+	Node *cur = NULL;
+	Node *pre = NULL;
 	list(head);
-	printf("");
+	printf("请输入要删除的联系人姓名:\n");
+	scanf("%s", del_name);
+	
+	cur = head->next;
+	pre = head;
+	while (cur != NULL) {
+		if (0 == (strcmp(del_name, cur->name))) {
+			printf("将要删除联系人:%s 号码:%s\n" cur->name, cur->number);
+			pre->next = cur->next;
+			free(cur);
+		}
+		pre = pre->next;
+		cur = cur->next;
+	}
+
+	printf("删除成功！\n");
 
 	return 0;
 }
