@@ -29,16 +29,16 @@ int main(int argc, char *argv[])
 	LinkList head = NULL;
 	char choice = '\0';
 
-	welcome(&choice);
 	init(&head);
 	load(head);
+	welcome_menu(&choice, head);
 	//add(head);
-	add(head);
+	//add(head);
 	//del(head);
 	//modify(head);
 	//query(head);
-	save(head);
-	list(head);
+	//save(head);
+	//list(head);
 		
 	return EXIT_SUCCESS;
 }
@@ -47,8 +47,9 @@ int main(int argc, char *argv[])
 /*
  * Descritpion: 欢迎界面
  */
-int welcome(char *choice)
+int welcome_menu(char *choice, LinkList head)
 {
+menu:
 	printf("-----------------------------------------------------\n");
 	printf("\t\t\t通讯录管理系统\t\t\t\n");
 	printf("\n");
@@ -56,12 +57,40 @@ int welcome(char *choice)
 	printf("\t\t\t2.增加联系人\n");
 	printf("\t\t\t3.编辑联系人\n");
 	printf("\t\t\t4.删除联系人\n");
+	printf("\t\t\t5.推出通讯录系统\n");
 	printf("-----------------------------------------------------\n");
 
 	*choice = getchar();
 	printf("choice = %c\n", *choice);
 	setbuf(stdin, NULL);
 	
+	system("clear");
+	list(head);
+	switch (*choice) {
+		case '1': 
+			query(head); 
+			break;
+		case '2': 
+			add(head); 
+			save(head); 
+			break;
+		case '3': 
+			modify(head); 
+			save(head);
+			break;
+		case '4': 
+			del(head);
+			save(head);
+			break;
+		case '5':
+			exit(0);
+		default : 
+			printf("输入的选项有误，请重新输入!\n");
+			goto menu;
+	}
+	getchar();
+	goto menu;
+
 	return 0;
 }
 
@@ -165,13 +194,17 @@ int modify(LinkList head)
 			scanf("%s", cur->name);
 			printf("请重新输入电话号码:");
 			scanf("%s", cur->number);
+			printf("修改成功!\n");
+			
+		#ifdef DEBUG
+			list(head);
+		#endif
+			return 0;
 		}
 		cur = cur->next;
 	}
-	printf("修改成功!\n");
-#ifdef DEBUG
-	list(head);
-#endif
+
+	printf("未找到联系人:%s\n", m_name);
 
 	return 0;
 }
@@ -257,8 +290,11 @@ int save(LinkList head)
 	cur = head->next;
 	while (cur != NULL) {
 		fprintf(w_file, "%s\t%s\n", cur->name, cur->number);
+		printf("正在写入数据: %s\t%s...\n", cur->name, cur->number);
 		cur = cur->next;
 	}
+	
+	printf("保存数据成功!\n");
 
 	return 0;
 }
